@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrew's Directory App</title>
+</head>
+<body>
+    <header>Andrew's Directory App</header>
+    <div>
+        <p>Guide & Tutorial to this Express App:</p>
+        <p>This app supports the following functions:</p>
+        <ul>
+            <p>Register & Login Routes</p>
+            <li>Register as an Admin /register (POST) with first_name (string), last_name (string), email_address (string), password (string)</li>
+            <li>Login as an Admin /login (POST) with email_address (string), password (string)</li>
+        </ul>
+
+        <ul>
+            <p>Company Routes</p>
+            <li>Create a Company /company (POST) with company_name (string) </li>
+            <li>Update Company Name /company/:company_id (PATCH) with company_name (string)</li>
+            <li>List Available Companies /company (GET)</li>
+        </ul>
+
+        <ul>
+            <p>Create Admins for Specific Company</p>
+            <li>Invite an Admin /company/:company_id (POST) with email_address (string)</li>
+        </ul>
+
+        <ul>
+            <p>Company Branches</p>
+            <li>Create a Company Branch /company/:company_id/branch (POST) with branch_name (string)</li>
+            <li>Update a Company Branch Name company/:company_id/branch/:branch_id (PATCH) with branch_name (string)</li>
+            <li>Delete a Company Branch company/:company_id/branch/:branch_id (DELETE)</li>
+            <li>List Company Branches company/:company_id/branch (GET)</li>
+            <li>Show Specific Company Branch company/:company_id/branch/:branch_id (GET) </li>
+        </ul>
+
+        <ul>
+            <p>Employee Calls</p>
+            <li>List of All Users Available - /company/:company_id/branch/:branch_id/employee (GET)</li>
+            <li>Detailed Information About a Specific User - /company/:company_id/branch/:branch_id/employee/:id (GET)</li>
+            <li>To Create a New User - /company/:company_id/branch/:branch_id/employee (POST) with first_name (string), last_name (string), employee_email (string), job_title (string)</li>
+            <li>To Update an Existing User - /company/:company_id/branch/:branch_id/employee/:id (PUT) with first_name (string), last_name (string), employee_email (string), job_title (string), is_active (boolean)</li>
+            <li>To Delete an Existing/Specific User - /company/:company_id/branch/:branch_id/employee/:id (DELETE)</li>
+        </ul>
+    </div>
+    <script src="../src/main.js"></script>
+</body>
+</html>
