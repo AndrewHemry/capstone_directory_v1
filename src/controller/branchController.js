@@ -115,6 +115,37 @@ const listCompanyBranches = function(req, res){
 
 }
 
+// SHOW EMPLOYEES WITHIN COMPANY BRANCH
+// NEED COMPANY_ID, BRANCH_ID
+// SELECT XXXX, INNER JOIN TO SHOW COMPANY NAME AND OTHER DATA FIELDS TOGETHER - INNER JOIN BRANCH_DIRECTORY, EMPLOYEE, AVAILALE_COMPANIES
+// SQL: SELECT available_companies.company_name, company_branch.branch_name, employee.first_name, employee.last_name FROM ((branch_directory INNER JOIN employee ON branch_directory.employee_id) INNER JOIN available_companies.company_id)
+
+// SELECT employee.company_id, company_branch.branch_id, company_branch.branch_name, employee.id, employee.first_name, employee.last_name 
+// FROM employee
+// INNER JOIN company_branch on employee.company_id = company_branch.company_id
+// INNER JOIN branch_directory on employee.id = branch_directory.employee_id
+// WHERE employee.company_id = 10 and company_branch.branch_id = 6;
+
+const showBranchDirectory = function(req, res){
+
+    let company_id = req.params.company_id
+    let branch_id = req.params.branch_id
+
+    let sqlCommand = "SELECT employee.company_id, company_branch.branch_id, company_branch.branch_name, employee.id, employee.first_name, employee.last_name FROM employee INNER JOIN company_branch on employee.company_id = company_branch.company_id INNER JOIN branch_directory on employee.id = branch_directory.employee_id WHERE employee.company_id = ? and company_branch.branch_id = ?;"
+    let params = [company_id, branch_id]
+
+    db.query(sqlCommand, params, function(err, results){
+        if(err){
+            console.log("Failed to fetch directory branch")
+            res.sendStatus(500)
+        } else {
+            console.log("Successfully retrieved the company branch")
+            res.json(results)
+        }
+    })
+
+}
+
 module.exports = {
-    createCompanyBranch, updateCompanyBranch, deleteCompanyBranch, listCompanyBranches, showCompanyBranch
+    createCompanyBranch, updateCompanyBranch, deleteCompanyBranch, listCompanyBranches, showCompanyBranch, showBranchDirectory
 }

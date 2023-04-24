@@ -39,22 +39,26 @@ const createEmployee = async function(req, res){
 
 }
 
+
+// UPDATE ALL FUNCTIONS FOR THIS ONE AND BELOW
+
 const updateEmployee = function(req, res){
     // This is the command to update the existing user but without removing the previous values
     // SQL: UPDATE users_information SET is_active = CONCAT( is_active, ?)
     // ONLY ADMINS OF THE SAME COMPANY CAN UPDATE EMPLOYEES - THEY CAN UPDATE NAME, BRANCH, EMAIL, IS_EMPLOYEE, AND ACTIVE.
 
-    let id = req.params.id
+    let company_id = req.params.company_id
+    let branch_id = req.params.branch_id
+    let employee_id = req.params.id
 
-    let connected_id = req.body.connected_id
     let first_name = req.body.first_name
     let last_name = req.body.last_name
-    let user_email = req.body.user_email
-    let is_employee = req.body.is_employee
+    let employee_email = req.body.employee_email
     let is_active = req.body.is_active
+    let job_title = req.body.job_title
 
-    let sqlCommand = "UPDATE employee SET connected_id = ?, first_name = ?, last_name = ?, user_email = ?, is_employee = ?, is_active = ? WHERE id = ?"
-    let params = [connected_id, first_name, last_name, user_email, is_employee, is_active, id]
+    let sqlCommand = "UPDATE employee SET first_name = ?, last_name = ?, employee_email = ?, is_active = ?, job_title = ? WHERE id = ?"
+    let params = [first_name, last_name, employee_email, is_active, job_title, id]
 
     console.log("This is the sqlCommand", sqlCommand)
     console.log("These are the params", params)
@@ -112,23 +116,22 @@ const showEmployee = function(req, res){
     })
 }
 
-const listEmployees = function(req, res){
-    // This is the query to list all users in the database
-    // SQL Select id, first_name, last_name, is_active
-    // LIST ALL EMPLOYEES FOR A SPECIFIC COMPANY
+// const listEmployees = function(req, res){
+//     // This is the query to list all users in the database
+//     // SQL Select id, first_name, last_name, is_active
+//     // LIST ALL EMPLOYEES FOR A SPECIFIC COMPANY
 
-    db.query("SELECT id, first_name, last_name, is_active FROM user_information", function(err, results){
-        if(err){
-            console.log("Failed to fetch users from the database", err)
-            res.sendStatus(500)
-        } else {
-            res.json(results)
-        }
-    })
-}
+//     db.query("SELECT id, first_name, last_name, is_active FROM user_information", function(err, results){
+//         if(err){
+//             console.log("Failed to fetch users from the database", err)
+//             res.sendStatus(500)
+//         } else {
+//             res.json(results)
+//         }
+//     })
+// }
 
-// ADD A CALL TO LIST ALL EMPLOYEES FOR A SPECIFIC BRANCH
 
 module.exports = {
-    createEmployee, updateEmployee, deleteEmployee, showEmployee, listEmployees
+    createEmployee, updateEmployee, deleteEmployee, showEmployee
 }

@@ -32,7 +32,7 @@ let login = async function(req, res){
     let email_address = req.body.email_address
     let password = req.body.password
 
-    let sqlCommand = "Select password_hash from admin_login where email_address = ?"
+    let sqlCommand = "Select password_hash, id from admin_login where email_address = ?"
     let params = [email_address]
 
     db.query(sqlCommand, params, async function(err, results){
@@ -55,6 +55,7 @@ let login = async function(req, res){
             return
         }
 
+        let admin_id = results[0].id
         let password_hash = results[0].password_hash
 
         let goodPass = await argon.verify(password_hash, password)
@@ -63,10 +64,14 @@ let login = async function(req, res){
 
             let token = {
                 "email": email_address,
-                // "fullname": results[0].full_name
-                "id": id
-
+                "admin_id": admin_id
             }
+            // token.email = email_address
+            // token.admin_id = admin_id
+                // "email": email_address,
+                // // "fullname": results[0].full_name
+                // "id": id
+
             
             let signedToken = jwt.sign(token, JWT_SECRET, {expiresIn: "2hr"})
 

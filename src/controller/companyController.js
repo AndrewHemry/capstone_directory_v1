@@ -2,12 +2,14 @@
 // UPDATE COMPANY NAME - updateCompany
 
 const db = require("../db")
-// let middleware = require("../middle_ware")
+const middleware = require("../middle_ware")
 
 const createCompany = function(req, res){
     // This is the command to create a new company if one is not already existing
     // SQL: INSERT INTO available_companies(company_name) VALUES (?)
 
+    let admin_id = req._token.admin_id
+    console.log("The admin id is", admin_id)
     let company_name = req.body.company_name
 
     let sqlCommand = "INSERT INTO available_companies(company_name) VALUES (?)"
@@ -32,13 +34,9 @@ const createCompany = function(req, res){
             return
         }
         
-        admin_id = results[0]
-        company_id = results[0].id
-
-        console.log("The admin_id is:", admin_id)
-        console.log("The company_id is:", company_id)
+        let company_id = results.id
         
-        let sqlCommand = "INSERT INTO admin_company_relation(admin_id, company_id) VALUES (?, ?)"
+        let sqlCommand = "INSERT INTO admin_company_relation(admin_id, company_id) VALUES (?, LAST_INSERT_ID())"
         let params = [admin_id, company_id]
 
         db.query(sqlCommand, params, function(err, results){
@@ -57,7 +55,6 @@ const updateCompany = function(req, res){
     // SQL: UPDATE available_companies SET company_name = ? WHERE company_id = ?
 
     let company_id = req.params.company_id
-
     let company_name = req.body.company_name
 
     let sqlCommand = "UPDATE available_companies SET company_name = ? WHERE company_id = ?"

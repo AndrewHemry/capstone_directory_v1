@@ -3,20 +3,23 @@ const express = require("express")
 let router = new express.Router()
 
 let employeeController = require("../controller/employeeController")
+let middleware = require("../middle_ware")
+let companyChecker = require("../midde_ware_companyCheck")
 
-//Create User POST /users
-router.post("/company/:company_id/branch/:branch_id/employee", employeeController.createEmployee)
+// All should be protected
+//Create Employee POST /users
+router.post("/company/:company_id/branch/:branch_id/employee", middleware.checkJWT, companyChecker.companyCheck, employeeController.createEmployee)
 
-//Update a User PATCH /users/:id
-router.patch("/company/:company_id/branch/:branch_id/employee/:id", employeeController.updateEmployee)
+//Update an Employee PATCH
+router.patch("/company/:company_id/branch/:branch_id/employee/:id", middleware.checkJWT, companyChecker.companyCheck, employeeController.updateEmployee)
 
-//Delete a User DELETE /users/:id
-router.delete("/company/:company_id/branch/:branch_id/employee/:id", employeeController.deleteEmployee)
+//Delete an Employee
+router.delete("/company/:company_id/branch/:branch_id/employee/:id", middleware.checkJWT, companyChecker.companyCheck, employeeController.deleteEmployee)
 
-//List a User GET /users/:id
-router.get("/company/:company_id/branch/:branch_id/employee/:id", employeeController.showEmployee)
+//List an Employee
+router.get("/company/:company_id/branch/:branch_id/employee/:id", middleware.checkJWT, companyChecker.companyCheck, employeeController.showEmployee)
 
-//LIST all Users GET /users
-router.get("/company/:company_id/branch/:branch_id/employee", employeeController.listEmployees)
+//LIST all Employees
+// router.get("/company/:company_id/branch/:branch_id/employee", middleware.checkJWT, companyChecker.companyCheck, employeeController.listEmployees)
 
 module.exports = router;

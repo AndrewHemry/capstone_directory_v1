@@ -51,6 +51,25 @@ const createAdmin = function(req, res){
     })
 }
 
+const removeAdmin = function(req, res){
+
+    let company_id = req.params.company_id
+    let admin_id = req.params.admin_id
+
+    let sqlCommand = "DELETE FROM admin_company_relationship where admin_id = ? and company_id = ?"
+    let params = [admin_id, company_id]
+
+    db.query(sqlCommand, params, function(err, results){
+        if(err){
+            console.log("Could not delete admin from company", err)
+            res.sendStatus(500)
+        } else {
+            console.log("Deleted Admin from Company", results)
+            res.sendStatus(200)
+        }
+    })
+}
+
 module.exports = {
-    createAdmin
+    createAdmin, removeAdmin
 }
