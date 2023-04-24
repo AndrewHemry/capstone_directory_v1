@@ -9,6 +9,7 @@
         "express": "4.18.2",
         "json-stringify": "^1.0.0",
         "jsonwebtoken": "9.0.0",
-        "mysql": "2.18.1"
+        "mysql": "2.18.1",
+        "vercel": "^28.20.0"
     }
 }
